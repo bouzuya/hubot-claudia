@@ -3,6 +3,7 @@ gutil = require 'gulp-util'
 
 paths =
   src: './src/**/*.coffee'
+  srcImg: './src/**/*.jpg'
   test: './test/**/*.coffee'
   coverage: './coverage/**/lcov.info'
   coverageDir: './coverage/'
@@ -55,6 +56,12 @@ gulp.task 'build', ->
     .pipe hubotHelp.write()
     .pipe gulp.dest(paths.buildDir)
 
+gulp.task 'copy-image', ->
+  coffee = require 'gulp-coffee'
+  gulp
+    .src paths.srcImg
+    .pipe gulp.dest(paths.buildDir)
+
 gulp.task 'compile-src', ->
   coffee = require 'gulp-coffee'
   sourcemaps = require 'gulp-sourcemaps'
@@ -94,4 +101,4 @@ gulp.task 'test', ['compile-src', 'compile-test'], ->
 gulp.task 'watch', ->
   gulp.watch [paths.src, paths.test], ['test']
 
-gulp.task 'default', ['build']
+gulp.task 'default', ['build', 'copy-image']
